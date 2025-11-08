@@ -1,0 +1,45 @@
+{% extends "ui/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <!-- Tarjeta de bienvenida -->
+  <div class="card shadow-sm border-0">
+    <div class="card-header text-white" style="background-color: #0056b3;">
+      <h5 class="mb-0 fw-bold">🏥 Bienvenida al Sistema Hospitalario</h5>
+    </div>
+    <div class="card-body bg-light">
+      <p class="lead mb-3">
+        Bienvenida <strong>{{ user.username|default:"Funcionaria(o)" }}</strong> al sistema del 
+        <b>Hospital Clínico Herminda Martín de Chillán</b>.
+      </p>
+
+      <p>
+        Este sistema permite gestionar los registros del <b>Formulario Único de Registro de Nacimiento e Intervención (URNI)</b> 
+        y centralizar la información de atención del área obstétrica.
+      </p>
+
+      <hr>
+
+      <h6 class="fw-bold text-primary mb-2">Accesos rápidos</h6>
+      <p>Seleccione una opción para comenzar:</p>
+
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'ui:urni_crear' %}" class="btn btn-primary">
+          📝 Crear nuevo Formulario URNI
+        </a>
+        <a href="/admin/" class="btn btn-outline-secondary">
+          ⚙️ Panel de administración
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información adicional -->
+  <div class="alert alert-info mt-4 shadow-sm">
+    💡 <strong>Consejo:</strong> Mantenga actualizados los datos del formulario URNI y 
+    asegúrese de completar todos los campos antes de guardar.
+  </div>
+</div>
+
+{% endblock %}

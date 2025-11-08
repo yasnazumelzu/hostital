@@ -1,0 +1,168 @@
+{% extends "ui/base.html" %}
+
+{% block content %}
+
+<!-- Encabezado institucional con logo -->
+<div class="text-center mb-4">
+  <img src="{% static 'img/log_herminda.png' %}" 
+       alt="Logo Hospital Clínico Herminda Martín de Chillán"
+       class="img-fluid mb-3" style="max-height: 100px;">
+  <h2 class="fw-bold text-primary">Hospital Clínico Herminda Martín de Chillán</h2>
+  <p class="text-muted mb-0">Ministerio de Salud · Gobierno de Chile</p>
+  <hr class="mt-3 mb-4">
+</div>
+
+<h4 class="text-center text-primary mb-4">📋 Formulario Único de Registro de Nacimiento e Intervención (URNI)</h4>
+
+<form method="post" class="border rounded-4 p-4 bg-light shadow-sm">
+  {% csrf_token %}
+
+  <!-- Pestañas -->
+  <ul class="nav nav-tabs mb-3" id="urniTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="madre-tab" data-bs-toggle="tab" data-bs-target="#madre" type="button" role="tab">1️⃣ Madre</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="embarazo-tab" data-bs-toggle="tab" data-bs-target="#embarazo" type="button" role="tab">2️⃣ Embarazo</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="parto-tab" data-bs-toggle="tab" data-bs-target="#parto" type="button" role="tab">3️⃣ Parto</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="rn-tab" data-bs-toggle="tab" data-bs-target="#rn" type="button" role="tab">4️⃣ Recién Nacido</button>
+    </li>
+  </ul>
+
+  <!-- Contenido -->
+  <div class="tab-content" id="urniTabsContent">
+
+    <!-- Paso 1 -->
+    <div class="tab-pane fade show active" id="madre" role="tabpanel">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Nombre de la madre</label>
+          {{ form.madre_nombre }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">RUT</label>
+          {{ form.madre_rut }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Edad</label>
+          {{ form.madre_edad }}
+        </div>
+      </div>
+      <div class="text-end mt-3">
+        <button class="btn btn-primary next-tab" type="button">Siguiente ➡️</button>
+      </div>
+    </div>
+
+    <!-- Paso 2 -->
+    <div class="tab-pane fade" id="embarazo" role="tabpanel">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Semanas de gestación</label>
+          {{ form.semanas_gestacion }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Controles prenatales realizados</label>
+          {{ form.controles_prenatales }}
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary prev-tab" type="button">⬅️ Atrás</button>
+        <button class="btn btn-primary next-tab" type="button">Siguiente ➡️</button>
+      </div>
+    </div>
+
+    <!-- Paso 3 -->
+    <div class="tab-pane fade" id="parto" role="tabpanel">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Tipo de parto</label>
+          {{ form.tipo_parto }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Fecha del parto</label>
+          {{ form.fecha_parto }}
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary prev-tab" type="button">⬅️ Atrás</button>
+        <button class="btn btn-primary next-tab" type="button">Siguiente ➡️</button>
+      </div>
+    </div>
+
+    <!-- Paso 4 -->
+    <div class="tab-pane fade" id="rn" role="tabpanel">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Peso RN (kg)</label>
+          {{ form.rn_peso_kg }}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Talla RN (cm)</label>
+          {{ form.rn_talla_cm }}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label fw-bold">APGAR al 1’</label>
+          {{ form.apgar_1 }}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label fw-bold">APGAR al 5’</label>
+          {{ form.apgar_5 }}
+        </div>
+      </div>
+
+      <div class="alert alert-info mt-4">
+        ⚠️ Revise que todos los datos estén completos antes de guardar el formulario.
+      </div>
+
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary prev-tab" type="button">⬅️ Atrás</button>
+        <button type="submit" class="btn btn-success px-4">✅ Guardar formulario</button>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<!-- Script para mover pestañas -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const nextButtons = document.querySelectorAll('.next-tab');
+    const prevButtons = document.querySelectorAll('.prev-tab');
+
+    nextButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = document.querySelector('.nav-link.active');
+        const next = current.parentElement.nextElementSibling?.querySelector('.nav-link');
+        if (next) next.click();
+      });
+    });
+
+    prevButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = document.querySelector('.nav-link.active');
+        const prev = current.parentElement.previousElementSibling?.querySelector('.nav-link');
+        if (prev) prev.click();
+      });
+    });
+  });
+</script>
+
+<style>
+  body {
+    background-color: #f3f6fa;
+  }
+  .nav-tabs .nav-link.active {
+    background-color: #0d6efd;
+    color: white;
+  }
+  .btn-success {
+    background-color: #198754;
+    border-color: #198754;
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Clínico Herminda Martín de Chillán</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #f3f6fa;">
+
+  <!-- Encabezado institucional -->
+  <header class="text-center py-3" style="background-color: #253B80; color: white;">
+    <img src="{% static 'imagen/log_herminda.png' %}" 
+         alt="Logo Hospital Clínico Herminda Martín de Chillán"
+         class="img-fluid mb-2" style="max-height: 100px;">
+    <h4 class="fw-bold mb-0">Hospital Clínico Herminda Martín de Chillán</h4>
+    <p class="small mb-0">Ministerio de Salud · Gobierno de Chile</p>
+  </header>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0056b3;">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{% url 'ui:home' %}">Inicio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ui:home' %}">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ui:urni_crear' %}">Formulario URNI</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text text-white me-3">
+              Bienvenida, {{ user.username }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm" href="/admin/">Panel Admin</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="btn btn-light btn-sm" href="/admin/login/">Iniciar sesión</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="container mt-4">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Pie de página -->
+  <!-- Pie de página fijo -->
+<footer class="text-center text-muted py-3"
+        style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #f8f9fa; border-top: 1px solid #ddd;">
+  <p class="mb-0">
+    © 2025 Hospital Clínico Herminda Martín de Chillán — Sistema Hospitalario
+  </p>
+</footer>
+
+</body>
+</html>
